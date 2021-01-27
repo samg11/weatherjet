@@ -36,13 +36,13 @@ export function WeatherData({ location, ready }) {
         return <p>Choose a location</p>
     } else {
       return (
-        <ul>
+        <div>
         {items.map(item => (
-          <li key={item.id}>
-            {item.name} {item.price}
-          </li>
+          <div>
+            {item.name}
+          </div>
         ))}
-      </ul>
+      </div>
       );
     }
   }

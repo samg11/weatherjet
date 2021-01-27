@@ -1,11 +1,11 @@
 import React from 'react';
-import { LocationSearch } from './location_search';
+import { Location } from './location';
 
 function App() {
   return (
     <div className="App">
       <h1>Weatherjet</h1>
-      <LocationSearch />
+      <Location />
     </div>
   );
 }

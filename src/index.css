@@ -11,3 +11,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.forecast-card {
+  width: 300px;
+  height: 150px;
+  background: #C4C4C4;
+  text-align: center;
+  border-radius: 20px;
+}

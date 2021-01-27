@@ -1,13 +1,15 @@
 // https://api.weather.gov/points/[location]/forecast
 import { useState, useEffect } from 'react';
+import ForecastCard from './forecast-card';
+import { Box, Button } from '@material-ui/core';
+
 
 export function WeatherData({ location, ready }) {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState('nr');
     const [items, setItems] = useState([]);
-    // Note: the empty deps array [] means
-    // this useEffect will run once
-    // similar to componentDidMount()
+    const [showNight, changeShowNight] = useState([false, 'Show night']);
+
     useEffect(() => {
 
         fetch(`https://api.weather.gov/points/${location}/forecast`)
@@ -39,12 +41,20 @@ export function WeatherData({ location, ready }) {
     } else {
       return (
         <div>
-        {items.map(item => (
-          <div key={item.number}>
-            {item.name}
-          </div>
-        ))}
-      </div>
+          <Button variant="contained" color="primary" onClick={()=>{
+            const msg = !showNight[0] ? "Don't Show Night": "Show Night"
+            changeShowNight([!showNight[0], msg])
+              
+            }
+          }>
+              {showNight[1]}
+          </Button>
+          <Box display="flex" flexWrap="wrap" flexDirection="row">
+            {items.map(item => (
+              <ForecastCard key={item.name} showNight={showNight[0]} data={item} />
+            ))}
+          </Box>
+        </div>
       );
     }
   }

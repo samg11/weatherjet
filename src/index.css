@@ -14,11 +14,19 @@ code {
 
 .forecast-card {
   width: 300px;
-  height: 150px;
+  height: 200px;
   background: #C4C4C4;
   text-align: center;
   border-radius: 20px;
+  margin-bottom: 5px;
 }
+
+@media only screen and (max-width: 1050px) {
+  .forecast-card {
+    width: 100%;
+  }
+}
+
 
 .weather-data {
   display: flex;

@@ -19,7 +19,7 @@ export function WeatherData({ location, ready }) {
         .then(
         (result) => {
             setIsLoaded(true);
-            console.log(result)
+            console.log(result.properties.periods)
             setItems(result.properties.periods)
         },
         // Note: it's important to handle errors here
@@ -30,7 +30,7 @@ export function WeatherData({ location, ready }) {
             setError(error);
         }
         )
-    }, [])
+    }, [location])
   
     if (error) {
       return <div>Error: {error.message}</div>;

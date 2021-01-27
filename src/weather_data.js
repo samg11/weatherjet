@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import ForecastCard from './forecast-card';
 import { Box, Button } from '@material-ui/core';
+require('dotenv').config()
 
 
 export function WeatherData({ location, ready }) {

@@ -11,12 +11,14 @@ export function WeatherData({ location, ready }) {
     useEffect(() => {
 
         fetch(`https://api.weather.gov/points/${location}/forecast`)
-        .then(res => res.json())
+        .then(res => {
+          return res.json()
+        })
         .then(
         (result) => {
             setIsLoaded(true);
-            setItems(result.properties.periods)
             console.log(result)
+            setItems(result.properties.periods)
         },
         // Note: it's important to handle errors here
         // instead of a catch() block so that we don't swallow
@@ -38,7 +40,7 @@ export function WeatherData({ location, ready }) {
       return (
         <div>
         {items.map(item => (
-          <div>
+          <div key={item.number}>
             {item.name}
           </div>
         ))}

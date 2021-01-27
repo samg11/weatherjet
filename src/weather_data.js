@@ -40,13 +40,8 @@ export function WeatherData({ location, ready }) {
         return <p>Choose a location</p>
     } else {
       return (
-        <div className="weather-data">
-          <Box display="flex" flexWrap="wrap" flexDirection="row">
-            {items.map(item => (
-              <ForecastCard key={item.name} showNight={showNight[0]} data={item} />
-            ))}
-          </Box>
-          <Button variant="contained" onClick={()=>{
+        <div>
+          <Button className="showNightButton" variant="contained" onClick={()=>{
             const msg = !showNight[0] ? "Don't Show Night": "Show Night"
             changeShowNight([!showNight[0], msg])
               
@@ -54,6 +49,11 @@ export function WeatherData({ location, ready }) {
           }>
               {showNight[1]}
           </Button>
+          <Box className="weather-data" display="flex" flexWrap="wrap" flexDirection="row">
+            {items.map(item => (
+              <ForecastCard key={item.name} showNight={showNight[0]} data={item} />
+            ))}
+          </Box>
         </div>
       );
     }

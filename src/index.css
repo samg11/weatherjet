@@ -19,3 +19,14 @@ code {
   text-align: center;
   border-radius: 20px;
 }
+
+.weather-data {
+  display: flex;
+  text-align: center;
+  float: center;
+  margin: 0 auto;
+}
+
+.showNightButton {
+  width: 100%;
+}

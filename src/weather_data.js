@@ -46,7 +46,7 @@ export function WeatherData({ location }) {
     } else if (!isLoaded) {
       return <div>Loading...</div>;
     } else if (isLoaded === 'nr') {
-        return <p>Choose a location</p>
+        return <p>Loading...</p>
     } else {
       return (
         <div>

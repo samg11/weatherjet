@@ -2,10 +2,18 @@
 import { useState, useEffect } from 'react';
 import ForecastCard from './forecast-card';
 import { Box, Button } from '@material-ui/core';
+const sFetch = require('sync-fetch')
 require('dotenv').config()
 
+const GEOCODING_API_KEY = 'AIzaSyB4Q_i_g_dZ0vvhLfTMGHeHmzWZy9ntpoc'
 
-export function WeatherData({ location, ready }) {
+function geocode(address) {
+  const link = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${GEOCODING_API_KEY}`
+  const { lat,lng } = sFetch(link).json().results[0].geometry.location
+  return `${lat},${lng}`
+}
+
+export function WeatherData({ location }) {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState('nr');
     const [items, setItems] = useState([]);
@@ -13,7 +21,7 @@ export function WeatherData({ location, ready }) {
 
     useEffect(() => {
 
-        fetch(`https://api.weather.gov/points/${location}/forecast`)
+        fetch(`https://api.weather.gov/points/${geocode(location)}/forecast`)
         .then(res => {
           return res.json()
         })

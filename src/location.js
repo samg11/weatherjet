@@ -10,10 +10,19 @@ export function Location() {
     return (
         <div className="location-search">
             <FormControl>
-                <InputLabel htmlFor="my-input">Location</InputLabel>
-                <Input value={location} id="my-input" aria-describedby="my-helper-text" onChange={
-                    (e) => changeLocation(e.target.value)
+                <InputLabel htmlFor="my-input">Location {"(eg., \"New York\")"}</InputLabel>
+                
+                <Input
+                    value={location}
+                    id="my-input"
+                    aria-describedby="Location"
+                    onKeyPress={(e) => {if (e.code === 'Enter') {
+                        makeReady(true)
+                        changeData(<WeatherData location={location} ready={ready}/>)
+                    }}}
+                    onChange={(e) => changeLocation(e.target.value)
                 } />
+
                 <br />
                 <Button variant="contained" color="secondary" onClick={() => {
                     navigator.geolocation.getCurrentPosition(({coords: { latitude, longitude }}) => {

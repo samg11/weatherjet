@@ -9,7 +9,8 @@ const GEOCODING_API_KEY = 'AIzaSyB4Q_i_g_dZ0vvhLfTMGHeHmzWZy9ntpoc'
 
 function geocode(address) {
   const link = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${GEOCODING_API_KEY}`
-  const { lat,lng } = sFetch(link).json().results[0].geometry.location
+  const geocodeReq = sFetch(link).json()
+  const { lat,lng } = geocodeReq.results[0].geometry.location
   return `${lat},${lng}`
 }
 
@@ -18,18 +19,18 @@ export function WeatherData({ location }) {
     const [isLoaded, setIsLoaded] = useState('nr');
     const [items, setItems] = useState([]);
     const [showNight, changeShowNight] = useState([false, 'Show night']);
+    const [noInput, setNoInput] = useState(false);
 
     useEffect(() => {
+      if (location !== '') {
 
         fetch(`https://api.weather.gov/points/${geocode(location)}/forecast`)
-        .then(res => {
-          return res.json()
-        })
+        .then(res => res.json())
         .then(
         (result) => {
             setIsLoaded(true);
-            console.log(result.properties.periods)
-            setItems(result.properties.periods)
+            console.log(result);
+            setItems(result.properties.periods);
         },
         // Note: it's important to handle errors here
         // instead of a catch() block so that we don't swallow
@@ -39,6 +40,9 @@ export function WeatherData({ location }) {
             setError(error);
         }
         )
+      } else {
+        setNoInput(true)
+      }
     }, [location])
   
     if (error) {
@@ -46,7 +50,9 @@ export function WeatherData({ location }) {
     } else if (!isLoaded) {
       return <div>Loading...</div>;
     } else if (isLoaded === 'nr') {
-        return <p>Loading...</p>
+      return <p>Loading...</p>
+    } else if (noInput) {
+      return <p>You must type something for the location</p>
     } else {
       return (
         <div>

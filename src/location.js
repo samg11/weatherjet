@@ -16,6 +16,7 @@ export function Location() {
                     id="my-input"
                     aria-describedby="Location"
                     onKeyPress={(e) => {if (e.code === 'Enter') {
+                        changeData(<p>Loading...</p>)
                         changeData(<WeatherData location={location} />)
                     }}}
                     onChange={(e) => changeLocation(e.target.value)
@@ -31,6 +32,7 @@ export function Location() {
                 </Button>
                 <br />
                 <Button variant="contained" color="primary" onClick={()=>{
+                    changeData(<p>Loading...</p>)
                     changeData(<WeatherData location={location} />)
                 }
                 }>

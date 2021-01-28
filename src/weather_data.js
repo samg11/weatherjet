@@ -9,6 +9,7 @@ const GEOCODING_API_KEY = 'AIzaSyB4Q_i_g_dZ0vvhLfTMGHeHmzWZy9ntpoc'
 function geocode(address) {
   const link = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${GEOCODING_API_KEY}`
   const geocodeReq  = sFetch(link).json().results[0]
+  console.log(geocodeReq);
   const formatted   = geocodeReq.formatted_address
   const { lat,lng } = geocodeReq.geometry.location
   console.log(geocodeReq.address_components)
@@ -33,7 +34,7 @@ export function WeatherData({ location }) {
         .then(res => res.json())
         .then(
         (result) => {
-          console.log(result)
+          console.log(result);
           setIsLoaded(true);
           setItems(result.properties.periods);
         },

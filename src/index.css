@@ -25,6 +25,7 @@ code {
 @media only screen and (max-width: 1050px) {
   .forecast-card {
     width: 100%;
+    margin: 2px;
   }
 }
 

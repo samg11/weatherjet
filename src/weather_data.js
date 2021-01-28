@@ -9,9 +9,10 @@ const GEOCODING_API_KEY = 'AIzaSyB4Q_i_g_dZ0vvhLfTMGHeHmzWZy9ntpoc'
 
 function geocode(address) {
   const link = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${GEOCODING_API_KEY}`
-  const geocodeReq = sFetch(link).json()
-  const { lat,lng } = geocodeReq.results[0].geometry.location
-  return `${lat},${lng}`
+  const geocodeReq = sFetch(link).json().results[0]
+  const formatted = geocodeReq.formatted_address
+  const { lat,lng } = geocodeReq.geometry.location
+  return [`${lat},${lng}`, formatted]
 }
 
 export function WeatherData({ location }) {
@@ -20,17 +21,18 @@ export function WeatherData({ location }) {
     const [items, setItems] = useState([]);
     const [showNight, changeShowNight] = useState([false, 'Show night']);
     const [noInput, setNoInput] = useState(false);
+    const [formattedAddress, changeFormattedAddress] = useState('')
 
     useEffect(() => {
       if (location !== '') {
-
-        fetch(`https://api.weather.gov/points/${geocode(location)}/forecast`)
+        const geocoded = geocode(location)
+        changeFormattedAddress(geocoded[1])
+        fetch(`https://api.weather.gov/points/${geocoded[0]}/forecast`)
         .then(res => res.json())
         .then(
         (result) => {
-            setIsLoaded(true);
-            console.log(result);
-            setItems(result.properties.periods);
+          setIsLoaded(true);
+          setItems(result.properties.periods);
         },
         // Note: it's important to handle errors here
         // instead of a catch() block so that we don't swallow
@@ -56,6 +58,7 @@ export function WeatherData({ location }) {
     } else {
       return (
         <div>
+          <h2>{formattedAddress}:</h2>
           <Button className="showNightButton" variant="contained" onClick={()=>{
             const msg = !showNight[0] ? "Don't Show Night": "Show Night"
             changeShowNight([!showNight[0], msg])

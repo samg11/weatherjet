@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import ForecastCard from './forecast-card';
 import { Box, Button } from '@material-ui/core';
 const sFetch = require('sync-fetch')
-require('dotenv').config()
 
 const GEOCODING_API_KEY = 'AIzaSyB4Q_i_g_dZ0vvhLfTMGHeHmzWZy9ntpoc'
 

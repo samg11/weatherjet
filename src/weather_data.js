@@ -8,9 +8,11 @@ const GEOCODING_API_KEY = 'AIzaSyB4Q_i_g_dZ0vvhLfTMGHeHmzWZy9ntpoc'
 
 function geocode(address) {
   const link = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${GEOCODING_API_KEY}`
-  const geocodeReq = sFetch(link).json().results[0]
-  const formatted = geocodeReq.formatted_address
+  const geocodeReq  = sFetch(link).json().results[0]
+  const formatted   = geocodeReq.formatted_address
   const { lat,lng } = geocodeReq.geometry.location
+  console.log(geocodeReq.address_components)
+
   return [`${lat},${lng}`, formatted]
 }
 
@@ -26,10 +28,12 @@ export function WeatherData({ location }) {
       if (location !== '') {
         const geocoded = geocode(location)
         changeFormattedAddress(geocoded[1])
+        console.log(geocoded)
         fetch(`https://api.weather.gov/points/${geocoded[0]}/forecast`)
         .then(res => res.json())
         .then(
         (result) => {
+          console.log(result)
           setIsLoaded(true);
           setItems(result.properties.periods);
         },

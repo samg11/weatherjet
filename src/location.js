@@ -4,7 +4,6 @@ import { WeatherData } from './weather_data';
 
 export function Location() {
     const [location, changeLocation] = useState('');
-    const [ready, makeReady] = useState(false);
     const [data, changeData] = useState(<div></div>)
 
     return (
@@ -17,8 +16,7 @@ export function Location() {
                     id="my-input"
                     aria-describedby="Location"
                     onKeyPress={(e) => {if (e.code === 'Enter') {
-                        makeReady(true)
-                        changeData(<WeatherData location={location} ready={ready}/>)
+                        changeData(<WeatherData location={location} />)
                     }}}
                     onChange={(e) => changeLocation(e.target.value)
                 } />
@@ -33,8 +31,7 @@ export function Location() {
                 </Button>
                 <br />
                 <Button variant="contained" color="primary" onClick={()=>{
-                    makeReady(true)
-                    changeData(<WeatherData location={location} ready={ready} />)
+                    changeData(<WeatherData location={location} />)
                 }
                 }>
                     Get Weather Data

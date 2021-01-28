@@ -49,12 +49,12 @@ export function WeatherData({ location }) {
   
     if (error) {
       return <div>Error: {error.message}</div>;
+    } else if (noInput) {
+      return <p>You must type something for the location</p>
     } else if (!isLoaded) {
       return <div>Loading...</div>;
     } else if (isLoaded === 'nr') {
       return <p>Loading...</p>
-    } else if (noInput) {
-      return <p>You must type something for the location</p>
     } else {
       return (
         <div>

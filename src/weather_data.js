@@ -19,7 +19,7 @@ function geocode(address) {
 
 export function WeatherData({ location }) {
     const [error, setError] = useState(null);
-    const [isLoaded, setIsLoaded] = useState('nr');
+    const [isLoaded, setIsLoaded] = useState(false);
     const [items, setItems] = useState([]);
     const [showNight, changeShowNight] = useState([false, 'Show night']);
     const [noInput, setNoInput] = useState(false);
@@ -27,6 +27,7 @@ export function WeatherData({ location }) {
 
     useEffect(() => {
       if (location !== '') {
+        setIsLoaded(false)
         const geocoded = geocode(location)
         changeFormattedAddress(geocoded[1])
         console.log(geocoded)
@@ -57,8 +58,6 @@ export function WeatherData({ location }) {
       return <p>You must type something for the location</p>
     } else if (!isLoaded) {
       return <div>Loading...</div>;
-    } else if (isLoaded === 'nr') {
-      return <p>Loading...</p>
     } else {
       return (
         <div>

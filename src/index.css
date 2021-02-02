@@ -58,6 +58,10 @@ code {
   left:0;
 }
 
+.support-me:hover {
+  cursor: pointer;
+}
+
 .support-me > img {
   width: 200px;
 }

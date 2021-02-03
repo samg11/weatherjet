@@ -9,16 +9,23 @@ const GEOCODING_API_KEY = 'AIzaSyB4Q_i_g_dZ0vvhLfTMGHeHmzWZy9ntpoc'
 function geocode(address) {
   const link = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${GEOCODING_API_KEY}`
   const geocodeReq  = sFetch(link).json().results[0]
-  console.log(geocodeReq);
+
+  let inUS = false;
+  for (const e of geocodeReq.address_components) {
+    if (e.types.includes('country')) {
+      inUS = e.short_name.toLowerCase() === 'us';
+    }
+  }
+
   const formatted   = geocodeReq.formatted_address
   const { lat,lng } = geocodeReq.geometry.location
-  console.log(geocodeReq.address_components)
-
-  return [`${lat},${lng}`, formatted]
+  
+  return [`${lat},${lng}`, formatted, inUS]
 }
 
 export function WeatherData({ location }) {
-    const [error, setError] = useState(null);
+    const [error, setError]  = useState(null);
+    const [inUS, changeInUs] = useState(true);
     const [isLoaded, setIsLoaded] = useState(false);
     const [items, setItems] = useState([]);
     const [showNight, changeShowNight] = useState([false, 'Show night']);
@@ -30,23 +37,24 @@ export function WeatherData({ location }) {
         setIsLoaded(false)
         const geocoded = geocode(location)
         changeFormattedAddress(geocoded[1])
-        console.log(geocoded)
-        fetch(`https://api.weather.gov/points/${geocoded[0]}/forecast`)
-        .then(res => res.json())
-        .then(
-        (result) => {
-          console.log(result);
-          setIsLoaded(true);
-          setItems(result.properties.periods);
-        },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
-        (error) => {
+        changeInUs(geocoded[2])
+        if (geocoded[2]) {
+          fetch(`https://api.weather.gov/points/${geocoded[0]}/forecast`)
+          .then(res => res.json())
+          .then(
+          (result) => {
             setIsLoaded(true);
-            setError(error);
+            setItems(result.properties.periods);
+          },
+          // Note: it's important to handle errors here
+          // instead of a catch() block so that we don't swallow
+          // exceptions from actual bugs in components.
+          (error) => {
+              setIsLoaded(true);
+              setError(error);
+          }
+          )
         }
-        )
       } else {
         setNoInput(true)
       }
@@ -56,6 +64,8 @@ export function WeatherData({ location }) {
       return <div>Error: {error.message}</div>;
     } else if (noInput) {
       return <p>You must type something for the location</p>
+    } else if (!inUS) {
+      return <h4>You must pick a location inside the United States</h4>
     } else if (!isLoaded) {
       return <div>Loading...</div>;
     } else {

@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="App">
       <h1>Weatherjet</h1>
-      <h3>The open source Weather App</h3>
+      <h3>The open source Weather App for the United States</h3>
       <Location />
       
       <div className="footer">

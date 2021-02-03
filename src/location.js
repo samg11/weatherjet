@@ -9,7 +9,7 @@ export function Location() {
     return (
         <div className="location-search">
             <FormControl>
-                <InputLabel htmlFor="my-input">Location {"(eg., \"New York\")"}</InputLabel>
+                <InputLabel htmlFor="my-input">Location {"(eg., \"Philly\")"}</InputLabel>
                 
                 <Input
                     value={location}
